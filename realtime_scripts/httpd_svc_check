@@ -1,0 +1,24 @@
+#!/bin/bash
+
+# Function to check and start httpd service
+check_httpd_service() {
+    # Check if the httpd service is active
+    if systemctl is-active --quiet httpd; then
+        echo "$(date): httpd service is running."
+    else
+        echo "$(date): httpd service is not running. Starting the service..."
+        # Start the httpd service
+        systemctl start httpd
+        if [ $? -eq 0 ]; then
+            echo "$(date): Successfully started httpd service."
+        else
+            echo "$(date): Failed to start httpd service."
+        fi
+    fi
+}
+
+# Infinite loop to check the service every minute
+while true; do
+    check_httpd_service
+    sleep 60
+done
